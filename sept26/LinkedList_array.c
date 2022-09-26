@@ -49,6 +49,7 @@ int main() {
         printf("%d ->", current->val);
         current = current->next;
     }
+    // Print
     printf("\n");
 
     return 0;
