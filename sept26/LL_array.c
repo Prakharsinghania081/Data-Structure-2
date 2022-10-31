@@ -15,7 +15,6 @@ struct Node* create_node(int val) {
     node->next = NULL;
     return node;
 }
-
 // This function creates a linked list from the given array and
 // returns a pointer to the head of the linked list.
 struct Node* create_linked_list(int* arr, int size) {
