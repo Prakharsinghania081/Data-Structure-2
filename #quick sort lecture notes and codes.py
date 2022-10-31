@@ -1,9 +1,6 @@
 #quick sort lecture notes and codes
-#echos , trubles,..some random knowledge in future
-#mid term like psets
 #coding-
 #quick sort
-#use encapsulation, concentrate on one code at a time
 #partioning takes a value and puts that in its correct rank
 #everything bigger in another left file and everything smaller in another right  file
 # now sort lesser and greater separately..everything in lesser list is less than in greter sort and we can call quicksort in lesser and greater list separatelly
