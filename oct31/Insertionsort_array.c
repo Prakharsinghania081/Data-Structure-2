@@ -44,4 +44,13 @@ how it works?
 3 1 5 8 9 2 
 1 3 5 8 9 2 
 .......
-5 3 8 1 9 2 */
+5 3 8 1 9 2 
+In this, we determine whether the order is right up till the current element for each element. 
+In other words, the current element's left is sorted, and we search for the correct position for our current element there. 
+We start with the second element and check to see if the order is maintained because the first element is in the proper sequence. 
+In that case, we switch them. Therefore, we determine if the current element is greater than the prior element for each given element. 
+If not, we swap the elements back and forth until the current element exceeds the prior element. 
+Its space complexity is O, worst case time complexity is O(n), and best case time complexity is O(n) (1).
+
+*/
+
