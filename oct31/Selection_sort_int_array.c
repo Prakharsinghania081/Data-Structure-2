@@ -41,3 +41,8 @@ printf("%d ", array[i]);
 
 return 0;
 }
+
+ /*Sample output: 
+ Input the total number of elements in array:5
+Enter the elements of array: 132 24 12 1 134
+The sorted array is:  1 12 24 132 134 */
