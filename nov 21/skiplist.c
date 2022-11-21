@@ -10,7 +10,7 @@ struct Nodetype {
 
 struct Nodetype {
   int val;
-  struct Nodetype **Next; // or struct Nodetype *Next[]; (address of next) which is an array. a -> Next[0] -> Next[1] .......
+  struct Nodetype **E; // or struct Nodetype *Next[]; (address of next) which is an array. a -> Next[0] -> Next[1] .......
 }
 
 
@@ -42,6 +42,24 @@ lift 3 25<26<27 you get your floor
 
 */
   
+//if anyone knows ur sizes of jumps he can kill so we randomise the jumps. 
+  //generate particular number and generate an array 
+x = (0,1)
+numE = 1 
+if (x<0.2) numE +=1; 1 //every 5th size 2 and every 10th size 3 array if number is 0.15 u get 2 elvators in location (numE = 1+1 ) 
+if (x<0.1) numE +=1; //if number is less than 0.1 say 005 numE = 1+1+1 = 3 so u have 3 elevators in that location. 
+
+typedef struct NodeType * NodeAddress;
+E = (NodeAddress*)malloc(
+
+  //first generate a p
+//skiplists common interview questions. quadtrees, 
+  //interview question: given entire code and elevator positions now how to connect them tell. 
+
+
+
+
+
 
   
 
