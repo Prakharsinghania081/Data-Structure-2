@@ -1,30 +1,54 @@
-// AVL tree implementation in C
 
 #include <stdio.h>
 #include <stdlib.h>
+/* 
+Before rotating, insertion or deleting we need to make a note of the balancing property of AVL. 
+The balance factor of a node in an AVL tree is the difference in height between that node's left subtree and right subtree.
 
-// Create Node
+Height of Left Subtree - Height of Right Subtree = Balance Factor, or (Height of Right Subtree - Height of Left Subtree)
+
+The balance factor keeps an avl tree's ability to balance itself in check. The balancing factor's value must always be either -1, 0 or +1.
+
+*/ 
+
+// Create a Node 
 struct Node {
   int key;
   struct Node *left;
   struct Node *right;
-  int height;
+  int height; //height to check the balancing factor later 
 };
+/*example let the tree be: 
 
-int max(int a, int b);
+        58
+       /. \ 
+      17.  75 
+     /  \
+    3     39
+          /
+         26 
 
-// Calculate height
+
+*/
+// To ensure the balancing factor we need to calculate the height. 
 int height(struct Node *N) {
-  if (N == NULL)
-    return 0;
-  return N->height;
+  if (N != NULL) //if N is not null, that is you are not at the last node
+    return N->height; //add that into height 
+else; 
+  return 0; //if it is NULL return 0 . 
 }
 
-int max(int a, int b) {
-  return (a > b) ? a : b;
+
+//define the max out int : 
+int max(int a, int b) { //for 2 integers a and b return the value which is the max. 
+if (a>b)
+    return a; 
+else; 
+    return b; 
+   //return the max one. 
 }
 
-// Create a node
+//following to create a node (explanation given multiple times in previous cases)
 struct Node *newNode(int key) {
   struct Node *node = (struct Node *)
     malloc(sizeof(struct Node));
@@ -35,22 +59,10 @@ struct Node *newNode(int key) {
   return (node);
 }
 
-// Right rotate
-struct Node *rightRotate(struct Node *y) {
-  struct Node *x = y->left;
-  struct Node *T2 = x->right;
 
-  x->right = y;
-  y->left = T2;
-
-  y->height = max(height(y->left), height(y->right)) + 1;
-  x->height = max(height(x->left), height(x->right)) + 1;
-
-  return x;
-}
 
 // Left rotate
-struct Node *leftRotate(struct Node *x) {
+struct Node *RotateTreeLeft(struct Node *x) {
   struct Node *y = x->right;
   struct Node *T2 = y->left;
 
@@ -63,23 +75,80 @@ struct Node *leftRotate(struct Node *x) {
   return y;
 }
 
+/*
+
+     58
+       /. \ 
+      17.  75  =>  
+     /  \
+    3     39
+          /
+         26 
+
+
+         58
+       /. \ 
+      39.  75  =>  
+     /  \
+    17  null 
+   /   \    
+  3     26 
+         
+        58
+       /. \ 
+      39.  75  =>  
+     /  \
+    17  null 
+   /   \    
+  3     26 
+  
+  
+      39
+       /. \ 
+      17.  58  =>  
+     /  \.  / \ 
+    3  26.  null. 75
+  
+  
+  
+*/
+
+
+// defining a new node that is when u rotate right  
+struct Node *RotateTreeRight(struct Node *y) {
+  struct Node *x = y->left;
+  struct Node *T2 = x->right;
+// if x has a right subtree, assign y as the parent of the right subtree of x
+  x->right = y;
+  y->left = T2;
+
+  y->height = max(height(y->left), height(y->right)) + 1;
+  x->height = max(height(x->left), height(x->right)) + 1;
+
+  return x;
+}
+
+//right 
+
 // Get the balance factor
-int getBalance(struct Node *N) {
+int CheckBalanceFactor(struct Node *N) {
   if (N == NULL)
     return 0;
   return height(N->left) - height(N->right);
 }
 
+//in our example we see that it is not balanced. as balancing factor for root is 3-1 = 2 != {-1,0,1} 
+
 // Insert node
-struct Node *insertNode(struct Node *node, int key) {
+struct Node *NodeInsertion(struct Node *node, int key) {
   // Find the correct position to insertNode the node and insertNode it
   if (node == NULL)
     return (newNode(key));
 
   if (key < node->key)
-    node->left = insertNode(node->left, key);
+    node->left = NodeInsertion(node->left, key);
   else if (key > node->key)
-    node->right = insertNode(node->right, key);
+    node->right = NodeInsertion(node->right, key);
   else
     return node;
 
@@ -88,27 +157,27 @@ struct Node *insertNode(struct Node *node, int key) {
   node->height = 1 + max(height(node->left),
                height(node->right));
 
-  int balance = getBalance(node);
+  int balance = CheckBalanceFactor(node);
   if (balance > 1 && key < node->left->key)
-    return rightRotate(node);
+    return RotateTreeRight(node);
 
   if (balance < -1 && key > node->right->key)
-    return leftRotate(node);
+    return RotateTreeLeft(node);
 
   if (balance > 1 && key > node->left->key) {
-    node->left = leftRotate(node->left);
-    return rightRotate(node);
+    node->left = RotateTreeLeft(node->left);
+    return RotateTreeRight(node);
   }
 
   if (balance < -1 && key < node->right->key) {
-    node->right = rightRotate(node->right);
-    return leftRotate(node);
+    node->right = RotateTreeRight(node->right);
+    return RotateTreeLeft(node);
   }
 
   return node;
 }
 
-struct Node *minValueNode(struct Node *node) {
+struct Node *SmallestValue(struct Node *node) {
   struct Node *current = node;
 
   while (current->left != NULL)
@@ -117,9 +186,9 @@ struct Node *minValueNode(struct Node *node) {
   return current;
 }
 
-// Delete a nodes
+// Node deletion
 struct Node *deleteNode(struct Node *root, int key) {
-  // Find the node and delete it
+  // finding nodes to delete it 
   if (root == NULL)
     return root;
 
@@ -140,7 +209,7 @@ struct Node *deleteNode(struct Node *root, int key) {
         *root = *temp;
       free(temp);
     } else {
-      struct Node *temp = minValueNode(root->right);
+      struct Node *temp = SmallestValue(root->right);
 
       root->key = temp->key;
 
@@ -156,49 +225,50 @@ struct Node *deleteNode(struct Node *root, int key) {
   root->height = 1 + max(height(root->left),
                height(root->right));
 
-  int balance = getBalance(root);
-  if (balance > 1 && getBalance(root->left) >= 0)
-    return rightRotate(root);
+  int balance = CheckBalanceFactor(root);
+  if (balance > 1 && CheckBalanceFactor(root->left) >= 0)
+    return RotateTreeRight(root);
 
-  if (balance > 1 && getBalance(root->left) < 0) {
-    root->left = leftRotate(root->left);
-    return rightRotate(root);
+  if (balance > 1 && CheckBalanceFactor(root->left) < 0) {
+    root->left = RotateTreeLeft(root->left);
+    return RotateTreeRight(root);
   }
 
-  if (balance < -1 && getBalance(root->right) <= 0)
-    return leftRotate(root);
+  if (balance < -1 && CheckBalanceFactor(root->right) <= 0)
+    return RotateTreeLeft(root);
 
-  if (balance < -1 && getBalance(root->right) > 0) {
-    root->right = rightRotate(root->right);
-    return leftRotate(root);
+  if (balance < -1 && CheckBalanceFactor(root->right) > 0) {
+    root->right = RotateTreeRight(root->right);
+    return RotateTreeLeft(root);
   }
 
   return root;
 }
 
 // Print the tree
-void printPreOrder(struct Node *root) {
+void Printrightorder(struct Node *root) {
   if (root != NULL) {
     printf("%d ", root->key);
-    printPreOrder(root->left);
-    printPreOrder(root->right);
+    Printrightorder(root->left);
+    Printrightorder(root->right);
   }
 }
 
 int main() {
   struct Node *root = NULL;
 
-  root = insertNode(root, 2);
-  root = insertNode(root, 1);
-  root = insertNode(root, 7);
-  root = insertNode(root, 4);
-  root = insertNode(root, 5);
-  root = insertNode(root, 3);
-  root = insertNode(root, 8);
+  root = NodeInsertion(root, 2);
+  root = NodeInsertion(root, 1);
+  root = NodeInsertion(root, 7);
+  root = NodeInsertion(root, 4);
+  root = NodeInsertion(root, 5);
+  root = NodeInsertion(root, 3);
+  root = NodeInsertion(root, 8);
 
-  printPreOrder(root);
+  Printrightorder(root);
 
 
 
   return 0;
 }
+
