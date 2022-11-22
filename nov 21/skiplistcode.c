@@ -1,4 +1,5 @@
-/* Skip Lists: A Probabilistic Alternative to Balanced Trees */
+/* Skip Lists: A Probabilistic Alternative to Balanced Tree
+This is a random code from net, not my code. Just for reference added during class. s */
  
 #include <stdlib.h>
 #include <stdio.h>
