@@ -1,10 +1,6 @@
 /* Following are the functions and their notation we will be using:
 
 malloc()	: malloc (number *sizeof(int));
-calloc()	: calloc (number, sizeof(int));
-realloc()	: realloc (pointer_name, number * sizeof(int));
-free()	:  free (pointer_name);
-
 
 8/
 
@@ -24,7 +20,8 @@ void main()
 {
     char *data;
     //allocate memory using malloc, 15 bytes for characters. 
-    data = malloc(15 * sizeof(char) );
+    data = malloc(30 * sizeof(char) );
+    //In this we assign memory of 30*size of char bytes for address. (char*) is used to typecast the pointer returned by malloc to character.
     //if the data, that is allocated memory is zero, it returns null pointer
     if(data== NULL )
     {
@@ -38,5 +35,3 @@ void main()
     printf("The content in allocated memory is : %s\n", data );
     free(data); // free() is used to deallocate or release the memory blocks to reduce their wastage
 }
-
-
