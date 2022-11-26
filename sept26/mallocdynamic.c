@@ -78,7 +78,7 @@ int main()
  
         printf("Memory successfully re-allocated\n");
  
-        // Get the new elements of the array
+        // Get the new elements of the array. 
          for(int i=0;i<n;i++)
             pointer[i]=rand()%50;
  
