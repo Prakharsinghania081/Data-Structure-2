@@ -1,4 +1,5 @@
 // Binary Search Trees
+//guess copied from net 
 
 struct nodeType {
     int val;
