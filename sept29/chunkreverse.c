@@ -29,31 +29,45 @@ struct Node* create_linked_list(int* arr, int size) {
     }
     return head;
 }
+
 int * generateRandomArray(int n){
     int * a = (int *)malloc(n*sizeof(int));
+    //allocating memory for an array of n integers using the malloc function.
     for(int i=0;i<n;i++){
-        a[i] = rand()%100;    //generate random numbers between -50 and 450
-    }
+        a[i] = rand()%100;   
+    } // generate n random integers between 0 and 99 (by using the rand function and taking the modulo 100 of the result). The generated integers are stored in the array.
     return a;
 }
 
+
+/*
+ takes a linked list and reverse the order of the nodes in chunks of size k. The function does this by iterating through the list and reversing the order of the first k nodes. It then calls itself recursively on the remainder of the list, using the head->next = ChunkReverse(next,k) statement, which appends the reversed portion of the list to the end of the portion of the list that has not yet been reversed.
+
+*/
 NodeAddress * ChunkReverse(NodeAddress * head, int k){
     NodeAddress * current = head;
     NodeAddress * prev = NULL;
     NodeAddress * next = NULL;
     int count = 0;
+    /*The function takes a pointer to the head of the linked list, head, and an integer k, which specifies the size of the chunks to be reversed. It returns a pointer to the new head of the list after the reversal.*/ 
     while(current!=NULL && count<k){
+        /*The function uses a while loop to iterate through the list and reverse the order of the first k nodes. It uses three pointers: current, prev, and next. current points to the current node in the list, prev points to the previous node, and next points to the next node. The loop terminates when current is NULL or when the count of nodes reversed so far reaches k.*/
         next = current->next;
         current->next = prev;
         prev = current;
         current = next;
         count=count+1;
-    }
+    } /*Inside the loop, the function reverses the order of the nodes by updating the next pointer of the current node to point to the previous node and updating the prev pointer to point to the current node. It then updates current to point to the next node and increments the count.
+*/
     if (next!=NULL){
+        /*After the loop, if next is not NULL, the function calls itself recursively on the remainder of the list, passing next as the new head of the list and k as the chunk size. Finally, the function returns the prev pointer, which now points to the new head of the reversed list.
+*/
         head->next = ChunkReverse(next,k);
     }
     return prev;
 }
+
+
 void printLinkedList(NodeAddress * head){
     NodeAddress * x = head;
     while(x!=NULL){
