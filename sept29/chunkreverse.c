@@ -54,18 +54,15 @@ NodeAddress * ChunkReverse(NodeAddress * head, int k){
     }
     return prev;
 }
-
 void printLinkedList(NodeAddress * head){
-    NodeAddress * list = head;
-    while(list!=NULL){
-        if (list->next==NULL){
-            printf("%d",list->val);
+    NodeAddress * x = head;
+    while(x!=NULL){
+        if (x->next!=NULL){
+            printf("%d->",x->val);
         }
-        else{
-            printf("%d->",list->val);
-        }
-        list = list->next;
-    }
+        x = x->next;
+    }/* After printing the element, the function updates x to point to the next element in the list by setting x = x->next. This moves x to the next element in the list, and the loop continues until x becomes NULL. */ 
+    printf("\n");
 }
 
 int main() {
