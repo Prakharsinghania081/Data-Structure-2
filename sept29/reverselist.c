@@ -40,7 +40,16 @@ int * generateRandomArray(int n){
 }
 
 
+/*The function takes a pointer to the head of the list (NodeAddress * head) as input and returns a pointer to the head of the reversed list (NodeAddress *).
+
+/* The function uses three pointers:
+
+current points to the current node in the list that is being processed
+prev points to the previously processed node
+next points to the next node in the list that will be processed */
+
 NodeAddress * reverseList(NodeAddress * head){
+    /* */
     NodeAddress * current = head;
     NodeAddress * prev = NULL;
     NodeAddress * next = NULL;
@@ -50,8 +59,19 @@ NodeAddress * reverseList(NodeAddress * head){
         prev = current;
         current = next;
     }
+    
+    /*The function loops through the list until current becomes NULL, which indicates the end of the list.
+
+For each iteration of the loop, next is set to the next node in the list (current->next) and the next field of the current node is updated to point to the previously processed node (prev). The prev and current pointers are then advanced to the current node and the next node, respectively (prev = current and current = next).
+
+After the loop has completed, the function returns the prev pointer, which will be the head of the reversed list.*/
     return prev;
 }
+
+
+/*The function starts by setting a pointer x equal to the head of the list. It then enters a loop that continues until x is NULL, which is the terminator for the list.
+
+Inside the loop, the function first checks if x->next is NULL. If it is not, it prints the value of x->val followed by an arrow (->). This is done to indicate that there is another element in the list after the current one. */
 
 void printLinkedList(NodeAddress * head){
     NodeAddress * x = head;
@@ -60,7 +80,7 @@ void printLinkedList(NodeAddress * head){
             printf("%d->",x->val);
         }
         x = x->next;
-    }
+    }/* After printing the element, the function updates x to point to the next element in the list by setting x = x->next. This moves x to the next element in the list, and the loop continues until x becomes NULL. */ 
     printf("\n");
 }
 
