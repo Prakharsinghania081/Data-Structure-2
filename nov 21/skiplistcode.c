@@ -117,29 +117,30 @@ static void skiplist_node_free(snode *x) {
  
 int skiplist_delete(skiplist *list, int key) {
     int i;
-    snode *update[SKIPLIST_MAX_LEVEL + 1];
-    snode *x = list->header;
+    snode *update[SKIPLIST_MAX_LEVEL + 1]; //declaring an array called update that will be used to store pointers to nodes in the skip list that will be updated as the element is deleted.
+    snode *x = list->header; //sets a pointer x to the header node of the list and uses a loop to iterate through the levels of the skip list from highest to lowest. 
     for (i = list->level; i >= 1; i--) {
+     //At each level, uses the while loop to traverse the list forwards until it finds the first node with a key value greater than or equal to the key of the element being deleted.
         while (x->forward[i]->key < key)
             x = x->forward[i];
-        update[i] = x;
+        update[i] = x; //x is then updated to point to the node that was found, and the current x value is stored in the update array at the current level.
     }
  
-    x = x->forward[1];
-    if (x->key == key) {
+    x = x->forward[1]; //x will point to the node with the smallest key value that is greater than the key of the element being deleted.
+    if (x->key == key) { //if the key of this node is equal to the key of the element being deleted.
         for (i = 1; i <= list->level; i++) {
-            if (update[i]->forward[i] != x)
+            if (update[i]->forward[i] != x) //update the forward pointers of the nodes in the update array to skip over the element being deleted, effectively deleting it from the skip list.
                 break;
             update[i]->forward[1] = x->forward[i];
         }
-        skiplist_node_free(x);
+        skiplist_node_free(x); //rees the memory allocated for the element being deleted using the skiplist_node_free() function and updates the level of the skip list if necessary. 
  
         while (list->level > 1 && list->header->forward[list->level]
                 == list->header)
             list->level--;
         return 0;
     }
-    return 1;
+    return 1; //else: returns 1 to indicate that the element was not found in the skip list.
 }
  
 static void skiplist_dump(skiplist *list) {
